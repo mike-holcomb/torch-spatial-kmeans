@@ -16,12 +16,20 @@ python -m pip install .
 ## Usage
 
 ```python
-import torch_spatial_kmeans as tsk
+>>> import torch_spatial_kmeans as tsk
 
-data = torch.randn(100, 4)  # Example data with 100 samples, 2 features, and 2 spatial coordinates
-feature_weights = torch.ones(2)  # Example feature weights
-spatial_weight = 1.0  # Example spatial weight
-k = 3  # Number of clusters
+>>> data = torch.tensor([[1, 2, 3], [4, 5, 6]])
+>>> centroids, cluster_assignments = tsk.spatial_kmeans(
+    data, k=2, spatial_weight=0.5, num_spatial_dims=2)
+>>> centroids
+tensor([[1, 2, 3],
+        [4, 5, 6]])
+>>> cluster_assignments
+tensor([0, 1])
+```
 
-centroids, cluster_assignments = tsk.spatial_kmeans(data, k, feature_weights, spatial_weight)
+## Docs
+
+```bash
+python -m pydoc torch_spatial_kmeans
 ```
