@@ -1,6 +1,4 @@
-"""__init__.py
-
-torch_spatial_kmeans package
+"""torch_spatial_kmeans package
 
 Provides a PyTorch implementation of spatial K-means clustering.
 
@@ -183,7 +181,13 @@ def has_converged(old_centroids, new_centroids, tol=1e-4):
     return torch.norm(old_centroids - new_centroids) < tol
 
 
-def spatial_kmeans(data, k, spatial_weight, num_spatial_dims, max_iters=100):
+def spatial_kmeans(
+        data: torch.Tensor, 
+        k: int, 
+        spatial_weight: float = 1., 
+        num_spatial_dims: int = 2, 
+        max_iters: int = 100
+    ) -> (torch.Tensor, torch.Tensor):
     """Perform spatial K-means clustering.
 
     Args:
@@ -230,7 +234,3 @@ def spatial_kmeans(data, k, spatial_weight, num_spatial_dims, max_iters=100):
         converged = has_converged(old_centroids, centroids)
         iters += 1
     return centroids.cpu(), cluster_assignments.cpu()
-
-
-if __name__ == "__main__":
-    pass
