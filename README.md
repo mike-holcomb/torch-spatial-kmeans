@@ -33,3 +33,8 @@ tensor([0, 1])
 ```bash
 python -m pydoc torch_spatial_kmeans
 ```
+
+## Tests
+```bash
+python tests/test_kmeans_functions.py
+```
