@@ -8,8 +8,8 @@ Implementation of a Kernelized K-means clustering algorithm to perform GPU-accel
 2. Install with `pip`
 
 ```bash
-git clone <this repo>
-cd <this repo>
+git clone https://github.com/mike-holcomb/torch-spatial-kmeans.git
+cd torch-spatial-kmeans
 python -m pip install .
 ```
 
