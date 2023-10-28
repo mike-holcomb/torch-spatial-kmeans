@@ -2,6 +2,15 @@
 
 Implementation of a Kernelized K-means clustering algorithm to perform GPU-accelerated clustering using a combination of non-spatial and spatial features.
 
+Assumes input data is of the shape [N, F + S], where
+* `N` = number of examples
+* `F` = number of non-spatial features
+* `S` = number of spatial features
+
+Always assumes that the the spatial features are the last `num_spatial_dims` columns in the provided data.  `F` and `S` must both be greater than 0.
+
+The provided number of clusters (`k` parameter) must be between 2 and `N` (number of provided samples).
+
 ## Install
 
 1. Clone this repo

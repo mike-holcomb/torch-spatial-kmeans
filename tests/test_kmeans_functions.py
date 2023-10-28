@@ -45,10 +45,37 @@ class TestKMeansFunctions(unittest.TestCase):
         centroids2[0] += 1.0  # Modify one centroid
         self.assertFalse(has_converged(centroids1, centroids2))
 
-    def test_kmeans(self):
+    def test_spatial_kmeans(self):
         centroids, cluster_assignments = spatial_kmeans(self.data, self.k, self.spatial_weight, self.num_spatial_dims)
         self.assertEqual(centroids.size(), (self.k, self.data.size(1)))
         self.assertEqual(cluster_assignments.size(), (self.data.size(0),))
+
+    def test_spatial_kmeans_validation(self):
+        # Test case where num_spatial_dims is equal to the number of columns
+        with self.assertRaises(ValueError) as context:
+            spatial_kmeans(self.data, self.k, self.spatial_weight, self.data.size(1))
+        self.assertIn("more columns than num_spatial_dims", str(context.exception))
+
+        # Test case where num_spatial_dims is greater than the number of columns
+        with self.assertRaises(ValueError) as context:
+            spatial_kmeans(self.data, self.k, self.spatial_weight, self.data.size(1) + 1)
+        self.assertIn("more columns than num_spatial_dims", str(context.exception))
+        
+        # Test case where num_spatial_dims is zero
+        with self.assertRaises(ValueError) as context:
+            spatial_kmeans(self.data, self.k, self.spatial_weight, 0)
+        self.assertIn("at least one spatial dimension", str(context.exception))
+
+        # Test case where k is greater than the number of data points
+        with self.assertRaises(ValueError) as context:
+            spatial_kmeans(self.data, self.data.size(0) + 1, self.spatial_weight, self.num_spatial_dims)
+        self.assertIn("Number of clusters (k) must be less than or equal to the number of data points", str(context.exception))
+
+        # Test case where k is less than 2
+        with self.assertRaises(ValueError) as context:
+            spatial_kmeans(self.data, 1, self.spatial_weight, self.num_spatial_dims)
+        self.assertIn("Number of clusters (k) must be greater than or equal to 2", str(context.exception))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -214,6 +214,20 @@ def spatial_kmeans(
     # Move the data to the device
     data = data.float().to(device)
 
+    # Validation logic
+    if k < 2:
+        raise ValueError(f"Number of clusters (k) must be greater than or equal to 2, got {k}")
+
+    num_rows = data.size(0)
+    if k > num_rows:
+        raise ValueError(f"Number of clusters (k) must be less than or equal to the number of data points, got k={k} and {num_rows} data points.")
+
+    total_dims = data.size(1)
+    if total_dims <= num_spatial_dims:
+        raise ValueError(f"data must have more columns than num_spatial_dims, got {total_dims} columns and num_spatial_dims={num_spatial_dims}")
+    if num_spatial_dims <= 0:
+        raise ValueError(f"data must have at least one spatial dimension, got num_spatial_dims={num_spatial_dims}")
+
     # Initialize the centroids
     centroids = kmeans_plus_plus_initialization(data, k)
 
